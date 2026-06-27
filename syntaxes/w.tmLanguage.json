@@ -1,0 +1,91 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "wdtl",
+  "scopeName": "source.w",
+  "fileTypes": ["w"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#statement_keywords" },
+    { "include": "#expr_functions" },
+    { "include": "#agg_functions" },
+    { "include": "#sources" },
+    { "include": "#types" },
+    { "include": "#logical_operators" },
+    { "include": "#postfix_operators" },
+    { "include": "#structural_keywords" },
+    { "include": "#boolean_literals" },
+    { "include": "#operators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.number-sign.w",
+      "match": "#.*$"
+    },
+    "strings": {
+      "name": "string.quoted.double.w",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        { "name": "constant.character.escape.w", "match": "\\\\[ntr\"\\\\]" }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.w",
+      "match": "\\b-?[0-9]+(\\.[0-9]+)?\\b"
+    },
+    "statement_keywords": {
+      "comment": "Commands that start a statement — highest visibility",
+      "name": "keyword.control.w",
+      "match": "(?i)\\b(load|filter|select|rename|cast|join|groupby|sort|deduplicate|pivot|let|limit|skip|drop|promote|replace|split|append|copy|preview|export|set)\\b"
+    },
+    "expr_functions": {
+      "comment": "Expression-level built-in functions",
+      "name": "support.function.w",
+      "match": "(?i)\\b(concat|upper|lower|trim|round|coalesce)(?=\\s*\\()"
+    },
+    "agg_functions": {
+      "comment": "Aggregation functions used in groupby/pivot",
+      "name": "support.function.w",
+      "match": "(?i)\\b(sum|avg|mean|count_distinct|count|max|min|first|last|stddev|std|variance|var)(?=\\s*\\()"
+    },
+    "sources": {
+      "comment": "Data source and destination keywords",
+      "name": "support.class.w",
+      "match": "(?i)\\b(csv|excel|json|xml|parquet|postgres|mysql|sqlserver|oracle|mongodb|rest_api)(?=\\s*\\()"
+    },
+    "types": {
+      "comment": "Cast types",
+      "name": "storage.type.w",
+      "match": "\\b(Int32|Int64|Float32|Float64|String|Boolean|Date|Timestamp|int|integer|float|double|bool|text|utf8|datetime)\\b"
+    },
+    "logical_operators": {
+      "name": "keyword.operator.logical.w",
+      "match": "(?i)\\b(and|or|not)\\b"
+    },
+    "postfix_operators": {
+      "comment": "is_null, is_not_null, like, in — special postfix/infix expr keywords",
+      "name": "keyword.operator.w",
+      "match": "(?i)\\b(is_not_null|is_null|like|in)\\b"
+    },
+    "structural_keywords": {
+      "comment": "Structural keywords that glue statements together",
+      "name": "keyword.other.w",
+      "match": "(?i)\\b(where|as|on|by|to|with|from|asc|desc|aggregate|inner|left|right|full|if|then|else|end|rows|column|row|empty|delimiter|positions|lower_to_upper|upper_to_lower|digit_to_alpha|alpha_to_digit|chars|values|pipeline|step|use)\\b"
+    },
+    "boolean_literals": {
+      "name": "constant.language.w",
+      "match": "(?i)\\b(true|false|null)\\b"
+    },
+    "operators": {
+      "name": "keyword.operator.w",
+      "match": "(!=|<=|>=|->|=>|=|<|>|\\+|-|\\*|/|%)"
+    },
+    "identifiers": {
+      "name": "variable.other.w",
+      "match": "\\b[a-zA-Z_][\\w]*\\b"
+    }
+  }
+}

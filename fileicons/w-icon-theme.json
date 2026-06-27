@@ -1,0 +1,25 @@
+{
+  "iconDefinitions": {
+    "_w_file": {
+      "iconPath": "./w-icon.png"
+    },
+    "_default_file": {
+      "iconPath": "./default-file.svg"
+    },
+    "_default_folder": {
+      "iconPath": "./default-folder.svg"
+    },
+    "_default_folder_open": {
+      "iconPath": "./default-folder-open.svg"
+    }
+  },
+  "file": "_default_file",
+  "folder": "_default_folder",
+  "folderExpanded": "_default_folder_open",
+  "languageIds": {
+    "w": "_w_file"
+  },
+  "extensions": {
+    ".w": "_w_file"
+  }
+}

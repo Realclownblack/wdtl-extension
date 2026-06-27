@@ -1,0 +1,59 @@
+{
+  "name": "wdtl-extension",
+  "displayName": "WDTL — W Language",
+  "description": "Syntax highlighting, IntelliSense, snippets and LSP client for the Wdtl data pipeline language (.w)",
+  "version": "1.1.0",
+  "publisher": "wdtl",
+  "engines": { "vscode": "^1.75.0" },
+  "categories": ["Programming Languages", "Snippets"],
+  "icon": "icon.png",
+  "main": "./out/extension.js",
+  "activationEvents": ["onLanguage:w"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "w",
+        "aliases": ["W Language", "wdtl", "w"],
+        "extensions": [".w"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./fileicons/w-icon.png",
+          "dark": "./fileicons/w-icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "w",
+        "scopeName": "source.w",
+        "path": "./syntaxes/w.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "w",
+        "path": "./snippets/w.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "w-icon-theme",
+        "label": "W Language Icons",
+        "path": "./fileicons/w-icon-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0"
+  }
+}

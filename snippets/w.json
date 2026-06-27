@@ -1,0 +1,229 @@
+{
+  "Load CSV": {
+    "prefix": "load-csv",
+    "body": ["load csv(\"${1:path.csv}\") as ${2:frame}"],
+    "description": "Carrega um arquivo CSV"
+  },
+  "Load CSV (opções)": {
+    "prefix": "load-csv-opts",
+    "body": ["load csv(\"${1:path.csv}\", delimiter=\"${2:;}\", header=${3:true}) as ${4:frame}"],
+    "description": "Carrega CSV com opções"
+  },
+  "Load Excel": {
+    "prefix": "load-excel",
+    "body": ["load excel(\"${1:path.xlsx}\", sheet=\"${2:Plan1}\") as ${3:frame}"],
+    "description": "Carrega planilha Excel"
+  },
+  "Load JSON": {
+    "prefix": "load-json",
+    "body": ["load json(\"${1:path.json}\") as ${2:frame}"],
+    "description": "Carrega arquivo JSON"
+  },
+  "Load Parquet": {
+    "prefix": "load-parquet",
+    "body": ["load parquet(\"${1:path.parquet}\") as ${2:frame}"],
+    "description": "Carrega arquivo Parquet"
+  },
+  "Load Postgres": {
+    "prefix": "load-postgres",
+    "body": ["load postgres(\"${1:connection_string}\", \"${2:SELECT * FROM tabela}\") as ${3:frame}"],
+    "description": "Carrega do PostgreSQL"
+  },
+  "Load REST API": {
+    "prefix": "load-rest",
+    "body": ["load rest_api(\"${1:https://api.exemplo.com/dados}\") as ${2:frame}"],
+    "description": "Carrega de REST API"
+  },
+  "Filter": {
+    "prefix": "filter",
+    "body": ["filter ${1:frame} where ${2:coluna} ${3:=} ${4:valor}"],
+    "description": "Filtra linhas por condição"
+  },
+  "Select": {
+    "prefix": "select",
+    "body": ["select ${1:frame} [${2:col1, col2}]"],
+    "description": "Seleciona colunas"
+  },
+  "Rename": {
+    "prefix": "rename",
+    "body": ["rename ${1:frame} ${2:col_antigo} to ${3:col_novo}"],
+    "description": "Renomeia coluna"
+  },
+  "Cast": {
+    "prefix": "cast",
+    "body": ["cast ${1:frame} ${2:coluna} as ${3|Int64,Float64,String,Boolean,Date,Timestamp,Int32,Float32|}"],
+    "description": "Converte tipo de coluna"
+  },
+  "Join": {
+    "prefix": "join",
+    "body": ["join ${1:left} with ${2:right} on ${1:left}.${3:id} = ${2:right}.${4:id} ${5|inner,left,right,full|}"],
+    "description": "Join entre dois frames"
+  },
+  "Join com alias": {
+    "prefix": "join-as",
+    "body": ["join ${1:left} with ${2:right} on ${1:left}.${3:id} = ${2:right}.${4:id} ${5|inner,left,right,full|} as ${6:resultado}"],
+    "description": "Join com frame de saída nomeado"
+  },
+  "GroupBy": {
+    "prefix": "groupby",
+    "body": [
+      "groupby ${1:frame} [${2:coluna}] aggregate",
+      "  ${3:total} = sum(${4:valor})"
+    ],
+    "description": "Agrupa e agrega"
+  },
+  "GroupBy múltiplas aggs": {
+    "prefix": "groupby-multi",
+    "body": [
+      "groupby ${1:frame} [${2:col1, col2}] aggregate",
+      "  ${3:total}  = sum(${4:valor}),",
+      "  ${5:media}  = avg(${4:valor}),",
+      "  ${6:qtd}    = count(${4:valor})"
+    ],
+    "description": "GroupBy com múltiplas agregações"
+  },
+  "Sort": {
+    "prefix": "sort",
+    "body": ["sort ${1:frame} by ${2:coluna} ${3|asc,desc|}"],
+    "description": "Ordena o frame"
+  },
+  "Deduplicate": {
+    "prefix": "dedup",
+    "body": ["deduplicate ${1:frame}"],
+    "description": "Remove duplicatas"
+  },
+  "Deduplicate on cols": {
+    "prefix": "dedup-on",
+    "body": ["deduplicate ${1:frame} on ${2:col1, col2}"],
+    "description": "Remove duplicatas por colunas específicas"
+  },
+  "Pivot": {
+    "prefix": "pivot",
+    "body": ["pivot ${1:frame} on ${2:coluna} aggregate sum(${3:valor})"],
+    "description": "Pivoteia coluna"
+  },
+  "Let (coluna calculada)": {
+    "prefix": "let",
+    "body": ["let ${1:frame} ${2:nova_col} = ${3:expr}"],
+    "description": "Cria ou sobrescreve uma coluna"
+  },
+  "Let if/then/else": {
+    "prefix": "let-if",
+    "body": ["let ${1:frame} ${2:coluna} = if ${3:cond} then ${4:valor_a} else ${5:valor_b} end"],
+    "description": "Coluna condicional"
+  },
+  "Limit": {
+    "prefix": "limit",
+    "body": ["limit ${1:frame} ${2:100}"],
+    "description": "Limita número de linhas"
+  },
+  "Skip": {
+    "prefix": "skip",
+    "body": ["skip ${1:frame} ${2:1}"],
+    "description": "Pula N linhas do início"
+  },
+  "Drop Column": {
+    "prefix": "drop-col",
+    "body": ["drop column ${1:frame} [${2:col1, col2}]"],
+    "description": "Remove colunas"
+  },
+  "Drop Row": {
+    "prefix": "drop-row",
+    "body": ["drop row ${1:frame} where ${2:coluna} ${3:=} ${4:valor}"],
+    "description": "Remove linhas por condição"
+  },
+  "Promote Row": {
+    "prefix": "promote",
+    "body": ["promote row ${1:frame} ${2:0}"],
+    "description": "Promove linha como cabeçalho"
+  },
+  "Replace value": {
+    "prefix": "replace",
+    "body": ["replace in ${1:frame} column ${2:coluna} \"${3:de}\" with \"${4:para}\""],
+    "description": "Substitui valor em coluna"
+  },
+  "Replace empty": {
+    "prefix": "replace-empty",
+    "body": ["replace empty in ${1:frame} column ${2:coluna} with ${3:\"valor_padrao\"}"],
+    "description": "Substitui nulos/vazios"
+  },
+  "Split by delimiter": {
+    "prefix": "split-delim",
+    "body": ["split in ${1:frame} column ${2:coluna} by delimiter \"${3:;}\" into columns [${4:parte1, parte2}]"],
+    "description": "Split por delimitador"
+  },
+  "Split by chars": {
+    "prefix": "split-chars",
+    "body": ["split in ${1:frame} column ${2:coluna} by chars ${3:5} into columns [${4:parte1, parte2}]"],
+    "description": "Split por tamanho fixo"
+  },
+  "Split into rows": {
+    "prefix": "split-rows",
+    "body": ["split in ${1:frame} column ${2:coluna} by delimiter \"${3:;}\" into rows as ${4:coluna_split}"],
+    "description": "Split em múltiplas linhas"
+  },
+  "Append": {
+    "prefix": "append",
+    "body": ["append ${1:base} from ${2:frame2}"],
+    "description": "Empilha frames"
+  },
+  "Append com alias": {
+    "prefix": "append-as",
+    "body": ["append ${1:base} from ${2:frame2}, ${3:frame3} as ${4:resultado}"],
+    "description": "Empilha frames com saída nomeada"
+  },
+  "Copy": {
+    "prefix": "copy",
+    "body": ["copy ${1:frame} as ${2:frame_backup}"],
+    "description": "Cria cópia independente do frame"
+  },
+  "Preview": {
+    "prefix": "preview",
+    "body": ["preview ${1:frame} rows ${2:10}"],
+    "description": "Visualiza N linhas no terminal"
+  },
+  "Export CSV": {
+    "prefix": "export-csv",
+    "body": ["export ${1:frame} csv(\"${2:output.csv}\")"],
+    "description": "Exporta para CSV"
+  },
+  "Export Excel": {
+    "prefix": "export-excel",
+    "body": ["export ${1:frame} excel(\"${2:output.xlsx}\", sheet=\"${3:Dados}\")"],
+    "description": "Exporta para Excel"
+  },
+  "Export JSON": {
+    "prefix": "export-json",
+    "body": ["export ${1:frame} json(\"${2:output.json}\", pretty=true)"],
+    "description": "Exporta para JSON"
+  },
+  "Export Parquet": {
+    "prefix": "export-parquet",
+    "body": ["export ${1:frame} parquet(\"${2:output.parquet}\")"],
+    "description": "Exporta para Parquet"
+  },
+  "Set": {
+    "prefix": "set",
+    "body": ["set ${1:nome_pipeline} = \"${2:Meu Pipeline}\""],
+    "description": "Define metadado do pipeline"
+  },
+  "if/then/else/end": {
+    "prefix": "if",
+    "body": ["if ${1:condicao} then ${2:valor_a} else ${3:valor_b} end"],
+    "description": "Expressão condicional"
+  },
+  "Pipeline completo": {
+    "prefix": "pipeline",
+    "body": [
+      "# ${1:Nome do pipeline}",
+      "set nome_pipeline = \"${1:Nome do pipeline}\"",
+      "",
+      "load csv(\"${2:entrada.csv}\") as dados",
+      "",
+      "filter dados where ${3:coluna} is_not_null",
+      "",
+      "export dados csv(\"${4:saida.csv}\")"
+    ],
+    "description": "Estrutura básica de pipeline"
+  }
+}
