@@ -2,7 +2,7 @@
   "name": "wdtl-extension",
   "displayName": "WDTL — W Language",
   "description": "Syntax highlighting, IntelliSense, snippets and LSP client for the Wdtl data pipeline language (.w)",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "publisher": "wdtl",
   "repository": {
   "type": "git",
