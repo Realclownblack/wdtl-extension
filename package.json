@@ -4,6 +4,10 @@
   "description": "Syntax highlighting, IntelliSense, snippets and LSP client for the Wdtl data pipeline language (.w)",
   "version": "1.1.0",
   "publisher": "wdtl",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/Realclownblack/wdtl-extension"
+  },
   "engines": { "vscode": "^1.75.0" },
   "categories": ["Programming Languages", "Snippets"],
   "icon": "icon.png",

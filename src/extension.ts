@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -12,7 +11,10 @@ import { W_COMPLETIONS, W_HOVER_MAP, W_SIGNATURES } from './wLanguageData';
 let client: LanguageClient | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
-  // ─── 1. IntelliSense: completion ────────────────────────────────────────────
+  // ─── 1. IntelliSense: completion (keywords estáticas) ───────────────────────
+  // Retorna apenas keywords fixas da linguagem W.
+  // Frames e colunas dinâmicas são responsabilidade do LSP (completion.rs),
+  // que analisa o script e sugere os frames definidos até a linha atual.
   const completionProvider = vscode.languages.registerCompletionItemProvider(
     { language: 'w', scheme: 'file' },
     {
@@ -76,7 +78,6 @@ export function activate(context: vscode.ExtensionContext) {
         const help = new vscode.SignatureHelp();
         help.signatures = [info];
         help.activeSignature = 0;
-        // calculate active parameter by counting commas
         const args = match[2];
         help.activeParameter = args ? args.split(',').length - 1 : 0;
         return help;
@@ -89,8 +90,11 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(completionProvider, hoverProvider, signatureProvider);
 
   // ─── 4. LSP Client ──────────────────────────────────────────────────────────
-  // The LSP server is the `w` binary called with the `lsp` subcommand.
-  // It communicates over stdio (standard input / standard output).
+  // O servidor LSP é o binário `w` chamado com o subcomando `lsp`.
+  // Ele comunica via stdio e é responsável por:
+  //   - Sugerir frames definidos no script (ex: após `filter `, `sort `, etc.)
+  //   - Sugerir colunas do frame referenciado (ex: após `filter clientes where `)
+  //   - Emitir diagnósticos (erros e avisos) em tempo real
   const serverOptions: ServerOptions = {
     command: 'w',
     args: ['lsp'],
@@ -98,22 +102,27 @@ export function activate(context: vscode.ExtensionContext) {
   };
 
   const clientOptions: LanguageClientOptions = {
-    // Only activate for .w files
     documentSelector: [{ language: 'w', scheme: 'file' }],
     synchronize: {
-      // Watch for changes in .w files in the workspace
       fileEvents: vscode.workspace.createFileSystemWatcher('**/*.w'),
+    },
+    // Middleware garante que o LSP não seja bloqueado pelo completionProvider
+    // nativo acima. Quando o LSP retorna sugestões (frames, colunas), elas
+    // chegam ao usuário sem interferência.
+    middleware: {
+      provideCompletionItem: async (document, position, context, token, next) => {
+        return next(document, position, context, token);
+      },
     },
   };
 
   client = new LanguageClient(
-    'w-lsp',            // internal id
-    'W Language Server', // display name (shown in Output panel)
+    'w-lsp',
+    'W Language Server',
     serverOptions,
     clientOptions
   );
 
-  // Start the client — this also starts the server process.
   client.start();
   context.subscriptions.push(client);
 
